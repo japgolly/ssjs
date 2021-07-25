@@ -1,9 +1,7 @@
 package ssjs.db
 
-import org.scalatest.flatspec.AnyFlatSpec
-import org.typelevel.discipline.scalatest.FlatSpecDiscipline
-import org.scalatestplus.scalacheck.Checkers
+import ssjs.base.test.LawTester
 
-class DbNodePostgresTest extends AnyFlatSpec with FlatSpecDiscipline with Checkers {
+class DbNodePostgresTest extends LawTester {
   checkAll("DbNodePostgresTest", DbTests(DbNodePostgres).db)
 }

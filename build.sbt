@@ -6,6 +6,8 @@ startYear := Some(2021)
 ThisBuild / shellPrompt      := ((s: State) => Project.extract(s).currentRef.project + "> ")
 
 val root           = Build.root
+val baseLaws       = Build.baseLaws
+val baseTestLaws   = Build.baseTestLaws
 val dbApi          = Build.dbApi
 val dbLaws         = Build.dbLaws
 val dbNodePostgres = Build.dbNodePostgres
