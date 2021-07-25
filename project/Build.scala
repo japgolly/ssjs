@@ -25,6 +25,8 @@ object Build {
     .configure(defaultJsSettings(NoTests))
     .settings(
       libraryDependencies ++= Seq(
+        Dep.cats      .value,
+        Dep.discipline.value,
       ),
     )
 
@@ -32,4 +34,9 @@ object Build {
     .enablePlugins(ScalaJSPlugin)
     .dependsOn(dbApi, dbLaws % "compile->test")
     .configure(defaultJsSettings(TestJsWithNode))
+    .settings(
+      libraryDependencies ++= Seq(
+        Dep.disciplineScalatest.value % Test,
+      ),
+    )
 }

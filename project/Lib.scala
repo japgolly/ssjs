@@ -69,7 +69,6 @@ object Lib {
     "-Ybackend-parallelism", cores.min(16).toString,
     "-Ycache-macro-class-loader:last-modified",
     "-Ycache-plugin-class-loader:last-modified",
-    "-Yimports:java.lang,scala,cryptofolio.Predef",  // Use custom Predef
     "-Yjar-compression-level", "9",                  // compression level to use when writing jar files
     "-Yno-generic-signatures",                       // Suppress generation of generic signatures for Java.
     "-Ypatmat-exhaust-depth", "off"
@@ -90,7 +89,7 @@ object Lib {
     .settings(
       scalacOptions              ++= defaultScalacFlags,
       scalaVersion                := Ver.scala,
-      testFrameworks              := List(new TestFramework("utest.runner.Framework")),
+      testFrameworks              += new TestFramework("utest.runner.Framework"),
       update / aggregate          := true,
       updateOptions               := updateOptions.value.withCachedResolution(true),
       addCompilerPlugin(Dep.betterMonadicFor),
