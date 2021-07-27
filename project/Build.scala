@@ -11,6 +11,7 @@ object Build {
     .configure(defaultJvmSettings(tests = false))
     .aggregate(
       baseLaws,
+      baseTest,
       baseTestLaws,
       dbApi,
       dbLaws,
@@ -24,6 +25,16 @@ object Build {
       libraryDependencies ++= Seq(
         Dep.cats      .value,
         Dep.discipline.value,
+      ),
+    )
+
+  lazy val baseTest = project
+    .enablePlugins(ScalaJSPlugin)
+    .configure(defaultJsSettings(NoTests))
+    .settings(
+      libraryDependencies ++= Seq(
+        Dep.microlibsTestUtil.value,
+        Dep.scalaJsReactCallback.value,
       ),
     )
 
@@ -46,11 +57,11 @@ object Build {
 
   lazy val dbNodePostgres = project
     .enablePlugins(ScalaJSPlugin)
-    .dependsOn(dbApi, dbLaws % "compile->test")
+    .dependsOn(dbApi, dbLaws % Test, baseTest % Test)
     .configure(defaultJsSettings(TestJsWithNode), testsLaws)
 
   // ===================================================================================================================
 
   def testsLaws: Project => Project =
-    _.dependsOn(baseTestLaws % "compile->test")
+    _.dependsOn(baseTestLaws % Test)
 }

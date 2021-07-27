@@ -1,0 +1,28 @@
+#!/bin/bash
+
+set -euo pipefail
+
+name=ssjs_pg
+
+case "${1:-up}" in
+
+  up)
+    docker run \
+      --name $name \
+      -p 18549:5432 \
+      -e POSTGRES_DB=testdb \
+      -e POSTGRES_USER=testuser \
+      -e POSTGRES_PASSWORD=blah \
+      -d \
+      postgres:13
+    ;;
+
+  down)
+    docker rm -f $name
+    ;;
+
+  *)
+    echo "Usage: $0 (up | down)"
+    exit 1
+    ;;
+esac

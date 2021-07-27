@@ -1,0 +1,9 @@
+{
+  "name": "serverless_scalajs",
+  "version": "1",
+  "private": true,
+  "dependencies": {
+    "jsdom": "^16.6.0",
+    "pg": "^8.6.0"
+  }
+}

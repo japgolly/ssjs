@@ -7,6 +7,7 @@ ThisBuild / shellPrompt      := ((s: State) => Project.extract(s).currentRef.pro
 
 val root           = Build.root
 val baseLaws       = Build.baseLaws
+val baseTest       = Build.baseTest
 val baseTestLaws   = Build.baseTestLaws
 val dbApi          = Build.dbApi
 val dbLaws         = Build.dbLaws

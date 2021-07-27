@@ -19,3 +19,4 @@
 project/metals.sbt
 project/sjsincoptbench.sbt
 target
+node_modules

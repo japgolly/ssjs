@@ -118,8 +118,13 @@ object Lib {
         testSettings(enabled = false)
       case TestJsWithNode =>
         _.configure(testSettings(enabled = true)).settings(
-          Test / jsEnv := new JSDOMNodeJSEnv(JSDOMNodeJSEnv.Config()),
-        )
+          Test / jsEnv := {
+            val root = (ThisBuild / baseDirectory).value
+            val env = Map("NODE_PATH" -> (root / "node_modules").getAbsolutePath)
+            val cfg = AdvancedNodeJSEnv.Config().withEnv(env)
+            new AdvancedNodeJSEnv(cfg)
+          },
+        ),
       // case TestJsWithPhantomJs =>
       //   _.configure(testSettings(enabled = true)).settings(
       //     Test / scalaJSLinkerConfig ~= { _.withESFeatures(_.withUseECMAScript2015(false)) },
