@@ -7,7 +7,7 @@ object Dependencies {
   object Ver {
     def betterMonadicFor       = "0.3.1"
     def cats                   = "2.6.1"
- // def catsEffect             = "3.1.1"
+    def catsEffect             = "3.2.0"
  // def circe                  = "0.14.1"
  // def clearConfig            = "1.4.0"
     def discipline             = "1.1.5"
@@ -25,7 +25,7 @@ object Dependencies {
 
   object Dep {
     val cats                        = Def.setting("org.typelevel"                      %% "cats-core"                % Ver.cats)
- // val catsEffect                  = Def.setting("org.typelevel"                      %% "cats-effect"              % Ver.catsEffect)
+    val catsEffect                  = Def.setting("org.typelevel"                      %% "cats-effect"              % Ver.catsEffect)
  // val circe                       = Def.setting("io.circe"                          %%% "circe-core"               % Ver.circe)
  // val circeParser                 = Def.setting("io.circe"                          %%% "circe-parser"             % Ver.circe)
  // val clearConfig                 = Def.setting("com.github.japgolly.clearconfig"   %%% "core"                     % Ver.clearConfig)
@@ -44,6 +44,7 @@ object Dependencies {
  // val nyayaTest                   = Def.setting("com.github.japgolly.nyaya"         %%% "nyaya-test"               % Ver.nyaya)
  // val scalaJsDom                  = Def.setting("org.scala-js"                      %%% "scalajs-dom"              % Ver.scalaJsDom)
     val scalaJsReactCallback        = Def.setting("com.github.japgolly.scalajs-react" %%% "callback"                 % Ver.scalaJsReact)
+    val scalaJsReactCallbackCE      = Def.setting("com.github.japgolly.scalajs-react" %%% "callback-ext-cats_effect" % Ver.scalaJsReact)
  // val scalaJsReactCore            = Def.setting("com.github.japgolly.scalajs-react" %%% "core"                     % Ver.scalaJsReact)
  // val scalaJsReactExtra           = Def.setting("com.github.japgolly.scalajs-react" %%% "extra"                    % Ver.scalaJsReact)
  // val scalaJsReactTest            = Def.setting("com.github.japgolly.scalajs-react" %%% "test"                     % Ver.scalaJsReact)

@@ -33,8 +33,9 @@ object Build {
     .configure(defaultJsSettings(NoTests))
     .settings(
       libraryDependencies ++= Seq(
-        Dep.microlibsTestUtil.value,
-        Dep.scalaJsReactCallback.value,
+        Dep.microlibsTestUtil     .value,
+        Dep.scalaJsReactCallback  .value,
+        Dep.scalaJsReactCallbackCE.value,
       ),
     )
 
@@ -49,6 +50,12 @@ object Build {
   lazy val dbApi = project
     .enablePlugins(ScalaJSPlugin)
     .configure(defaultJsSettings(NoTests))
+    .settings(
+      libraryDependencies ++= Seq(
+        Dep.cats.value,
+        Dep.catsEffect.value,
+      ),
+    )
 
   lazy val dbLaws = project
     .enablePlugins(ScalaJSPlugin)

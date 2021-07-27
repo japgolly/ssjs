@@ -1,6 +1,7 @@
 package ssjs.db
 
 import scala.scalajs.js
+import scala.scalajs.js.|
 import scala.scalajs.js.annotation._
 import scala.annotation.nowarn
 
@@ -40,6 +41,8 @@ object PG {
     def query(q: QueryConfig): js.Promise[Result]
   }
 
+  def QueryConfig() = js.Dynamic.literal().asInstanceOf[QueryConfig]
+
   @js.native
   trait QueryConfig extends js.Object {
     var text: String
@@ -63,9 +66,13 @@ object PG {
   trait Result extends js.Object {
     val command: String = js.native
     val rowCount: Int = js.native
-    val rows: js.Array[js.Dynamic] = js.native
+    val rows: js.Array[Row] = js.native
     val fields: js.Array[FieldInfo] = js.native
   }
+
+  type ArrayRow = js.Array[Any]
+  type NamedRow = js.Dynamic
+  type Row = ArrayRow | NamedRow
 
   @js.native
   trait FieldInfo extends js.Object {
