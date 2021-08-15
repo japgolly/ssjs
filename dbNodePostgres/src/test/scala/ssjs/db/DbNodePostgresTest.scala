@@ -4,18 +4,13 @@ import cats.syntax.apply._
 import japgolly.scalajs.react.callback.AsyncCallback
 import japgolly.scalajs.react.callback.CallbackCatsEffect._
 import ssjs.base.test._
+import utest._
 
 // class DbNodePostgresTest extends LawTester {
 //   checkAll("DbNodePostgresTest", DbTests(DbNodePostgres).db)
 // }
 
-import utest._
-import scalajs.js
-
 object Test2 extends TestSuite {
-
-  // Hack to prevent cats-effect PolyfillExecutionContext canUsePostMessage() crashing
-  js.Dynamic.global.window.importScripts = (() => {}): js.Function0[Unit]
 
   override def tests = Tests {
 

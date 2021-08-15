@@ -5,10 +5,13 @@ import com.typesafe.sbt.GitPlugin.autoImport._
 import org.scalajs.jsenv.jsdomnodejs.JSDOMNodeJSEnv
 import org.scalajs.linker.interface.{CheckedBehavior, Semantics}
 import org.scalajs.sbtplugin.ScalaJSPlugin.autoImport._
+import sbtcrossproject.CrossPlugin.autoImport._
+import sbtcrossproject.CrossProject
 import scala.{Console => C}
 import scala.concurrent.duration._
 import scalafix.sbt.ScalafixPlugin
 import scalafix.sbt.ScalafixPlugin.autoImport._
+import scalajscrossproject.ScalaJSCrossPlugin.autoImport._
 
 object Lib {
   import Dependencies._
@@ -165,9 +168,9 @@ object Lib {
     .configure(if (devMode) identity else defaultJsSettingsProd)
     .configure(jsTestSettings(t))
 
-  // def defaultSettings(t: JsTestType): CrossProject => CrossProject = _
-  //   .jvmConfigure(defaultJvmSettings(tests = (t != NoTests)))
-  //   .jsConfigure(defaultJsSettings(t))
+  def defaultSettings(t: JsTestType): CrossProject => CrossProject = _
+    .jvmConfigure(defaultJvmSettings(tests = (t != NoTests)))
+    .jsConfigure(defaultJsSettings(t))
 
   /** This doesn't work when fork := true */
   def invokeAfterTests(objectName: String, methodName: String) =

@@ -2,6 +2,8 @@ import sbt._
 import sbt.Keys._
 import org.scalajs.sbtplugin.ScalaJSPlugin
 import org.scalajs.sbtplugin.ScalaJSPlugin.autoImport._
+import sbtcrossproject.CrossPlugin.autoImport._
+import scalajscrossproject.ScalaJSCrossPlugin.autoImport._
 import Dependencies._
 import Lib._
 
@@ -10,65 +12,72 @@ object Build {
   lazy val root = Project("root", file("."))
     .configure(defaultJvmSettings(tests = false))
     .aggregate(
-      baseLaws,
-      baseTest,
-      baseTestLaws,
-      dbApi,
-      dbLaws,
+      baseLawsJS,
+      baseLawsJVM,
+      baseTestJS,
+      baseTestJVM,
+      baseTestLawsJS,
+      baseTestLawsJVM,
+      dbApiJS,
+      dbApiJVM,
+      dbLawsJS,
+      dbLawsJVM,
       dbNodePostgres,
     )
 
-  lazy val baseLaws = project
-    .enablePlugins(ScalaJSPlugin)
-    .configure(defaultJsSettings(NoTests))
+  lazy val baseLawsJVM = baseLaws.jvm
+  lazy val baseLawsJS  = baseLaws.js
+  lazy val baseLaws = crossProject(JVMPlatform, JSPlatform)
+    .configureCross(defaultSettings(NoTests))
     .settings(
-      libraryDependencies ++= Seq(
-        Dep.cats      .value,
-        Dep.discipline.value,
-      ),
+      libraryDependencies += Dep.cats.value,
+      libraryDependencies += Dep.discipline.value,
     )
 
-  lazy val baseTest = project
-    .enablePlugins(ScalaJSPlugin)
-    .configure(defaultJsSettings(NoTests))
+  lazy val baseTestJVM = baseTest.jvm
+  lazy val baseTestJS  = baseTest.js
+  lazy val baseTest = crossProject(JVMPlatform, JSPlatform)
+    .configureCross(defaultSettings(NoTests))
     .settings(
-      libraryDependencies ++= Seq(
-        Dep.microlibsTestUtil     .value,
-        Dep.scalaJsReactCallback  .value,
-        Dep.scalaJsReactCallbackCE.value,
-      ),
+      libraryDependencies += Dep.catsEffect.value,
+      libraryDependencies += Dep.microlibsTestUtil.value,
+    )
+    .jsSettings(
+      libraryDependencies += Dep.scalaJsReactCallback.value,
+      libraryDependencies += Dep.scalaJsReactCallbackCE.value,
     )
 
-  lazy val baseTestLaws = project
-    .enablePlugins(ScalaJSPlugin)
+  lazy val baseTestLawsJVM = baseTestLaws.jvm
+  lazy val baseTestLawsJS  = baseTestLaws.js
+  lazy val baseTestLaws = crossProject(JVMPlatform, JSPlatform)
     .dependsOn(baseLaws)
-    .configure(defaultJsSettings(NoTests))
+    .configureCross(defaultSettings(NoTests))
     .settings(
       libraryDependencies += Dep.disciplineScalatest.value,
     )
 
-  lazy val dbApi = project
-    .enablePlugins(ScalaJSPlugin)
-    .configure(defaultJsSettings(NoTests))
+  lazy val dbApiJVM = dbApi.jvm
+  lazy val dbApiJS  = dbApi.js
+  lazy val dbApi = crossProject(JVMPlatform, JSPlatform)
+    .configureCross(defaultSettings(NoTests))
     .settings(
-      libraryDependencies ++= Seq(
-        Dep.cats.value,
-        Dep.catsEffect.value,
-      ),
+      libraryDependencies += Dep.cats.value,
+      libraryDependencies += Dep.catsEffect.value,
     )
 
-  lazy val dbLaws = project
-    .enablePlugins(ScalaJSPlugin)
+  lazy val dbLawsJVM = dbLaws.jvm
+  lazy val dbLawsJS  = dbLaws.js
+  lazy val dbLaws = crossProject(JVMPlatform, JSPlatform)
     .dependsOn(baseLaws, dbApi)
-    .configure(defaultJsSettings(NoTests))
+    .configureCross(defaultSettings(NoTests))
 
   lazy val dbNodePostgres = project
     .enablePlugins(ScalaJSPlugin)
-    .dependsOn(dbApi, dbLaws % Test, baseTest % Test)
-    .configure(defaultJsSettings(TestJsWithNode), testsLaws)
+    .dependsOn(dbApiJS, dbLawsJS % Test, baseTestJS % Test)
+    .configure(defaultJsSettings(TestJsWithNode), testsLawsJS)
 
   // ===================================================================================================================
 
-  def testsLaws: Project => Project =
-    _.dependsOn(baseTestLaws % Test)
+  def testsLawsJS: Project => Project =
+    _.dependsOn(baseTestLawsJS % Test)
 }
