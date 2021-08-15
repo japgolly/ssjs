@@ -13,7 +13,7 @@ object Dependencies {
     def discipline             = "1.1.5"
     def disciplineScalatest    = "2.1.5" // TODO: I should make a discipline-utest
     def kindProjector          = "0.13.0"
-    def microlibs              = "3.1"
+    def microlibs              = "3.0.1"
  // def nyaya                  = "0.10.0"
     def scala                  = "2.13.6"
  // def scalaJsDom             = "1.1.0"
